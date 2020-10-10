@@ -17,5 +17,47 @@
     </head>
     <body>
         <h2>Welcome to Laravel Membership Management Project</h2>
+
+        <a href="{{ route('posts') }}">Show Posts</a>
+        <a href="{{ route('posts.view') }}">Show Posts With View</a>
+
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+
+        <form action="{{ route('test-post') }}" method="POST">
+            @csrf 
+            <input type="text" name="username" placeholder="Username"/>
+            <input type="text" name="password" placeholder="Password"/>
+            <button type="submit">Submit</button>
+        </form>
+        <br>
+        <br>
+        <br>
+
+        <form action="{{ route('test-post-update', 10) }}" method="POST">
+            @method('PUT')
+            @csrf 
+            <input type="text" name="username" placeholder="Username"/>
+            <input type="text" name="password" placeholder="Password"/>
+            <button type="submit">Update</button>
+        </form>
+        <br>
+        <br>
+        <br>
+
+        <form action="{{ route('test-post-delete', 10) }}" method="POST">
+            @method('DELETE')
+            @csrf 
+            <button type="submit">Delete</button>
+        </form>
+
     </body>
 </html>
