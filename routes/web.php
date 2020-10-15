@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\PostsController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -46,5 +47,8 @@ Route::get('/', [WelcomeController::class, 'index'])->name('index');
 
 
 Route::get('/posts', [PagesController::class, 'posts'])->name('posts');
-Route::get('/posts-view', [PagesController::class, 'postsView'])->name('posts.view');
 Route::get('/posts-view-single/{id}', [PagesController::class, 'show'])->name('posts.show');
+
+
+Route::get('/posts-view', [PostsController::class, 'index'])->name('posts.view');
+Route::post('/posts/store', [PostsController::class, 'store'])->name('posts.store');
