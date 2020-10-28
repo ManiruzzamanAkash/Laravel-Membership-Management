@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\TasksController;
+use App\Http\Controllers\Backend\Dashboard\DashboardController;
+use App\Http\Controllers\Backend\User\UsersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,7 +16,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', [TasksController::class, 'home'])->name('tasks.home');
-Route::get('/about', [TasksController::class, 'about'])->name('about');
-Route::get('/contact', [TasksController::class, 'contact'])->name('contact');
-Route::resource('/tasks', TasksController::class);
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+|
+| Here is where all admin routes declared
+|
+*/
+Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('index');
+
+    Route::get('/users', [UsersController::class, 'index'])->name('users.index');
+});
