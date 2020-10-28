@@ -12,6 +12,24 @@ class TasksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function home()
+    {
+        return view('frontend.pages.index');
+    }
+    public function about()
+    {
+        return view('frontend.pages.about');
+    }
+    public function contact()
+    {
+        return view('frontend.pages.contact');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         // $tasks = Task::orderBy('id', 'desc')->get();
