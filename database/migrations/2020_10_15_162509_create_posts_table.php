@@ -19,6 +19,9 @@ class CreatePostsTable extends Migration
             $table->string('slug', 100)->unique();    // hello-world
             $table->enum('status', ['active', 'inactive', 'rejected'])->default('active');    
             $table->text('description')->nullable();
+            $table->unsignedBigInteger('category_id');
+
+            $table->foreign('category_id')->references('id')->on('categories');
             $table->timestamps();
         });
     }
