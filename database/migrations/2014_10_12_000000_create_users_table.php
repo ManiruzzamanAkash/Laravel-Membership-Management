@@ -26,16 +26,16 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('present_address')->nullable();
             $table->string('parmanent_address')->nullable();
-            $table->unsignedBigInteger('desgination_id');
+            $table->unsignedBigInteger('designation_id');
             $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->string('image')->nullable();
             $table->rememberToken();
             $table->softDeletes();
 
-            $table->unsignedBigInteger('created_by');
-            $table->unsignedBigInteger('updated_by');
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
 
-            $table->foreign('desgination_id')->references('id')->on('designations');
+            $table->foreign('designation_id')->references('id')->on('designations');
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('updated_by')->references('id')->on('users');
             $table->timestamps();

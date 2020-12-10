@@ -29,6 +29,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
 
     Route::get('/users', [UsersController::class, 'index'])->name('users.index');
+    Route::get('/users/create', [UsersController::class, 'create'])->name('users.create');
+    Route::get('/users/edit/{id}', [UsersController::class, 'edit'])->name('users.edit');
 });
 
 
