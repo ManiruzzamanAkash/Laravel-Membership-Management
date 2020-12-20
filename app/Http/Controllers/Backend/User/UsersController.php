@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Backend\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Designation;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
@@ -26,7 +28,8 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return view('backend.pages.users.create');
+        $designations = Designation::select('id', 'name')->get();
+        return view('backend.pages.users.create', compact('designations'));
     }
 
     /**
@@ -37,7 +40,47 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validate our data
+        $request->validate([
+                'name' => 'required|string|max:255|min:2',
+                'email' => 'required|string|email|max:255|unique:users',
+                'phone_no' => 'required|max:255|unique:users|max:15|min:11',
+                'username' => 'required|string|max:20|alpha_num|unique:users',
+                'image' => 'nullable|max:2048',
+                'present_address' => 'nullable|max:255',
+                'parmanent_address' => 'nullable|max:255',
+                'status' => 'required|string',
+                'designation_id' => 'required|numeric',
+            ],
+            [
+                'name.required' => 'Please, give your name !',
+                'email.required' => 'Please, give your email !',
+                'phone_no.required' => 'Please, give your phone no !',
+                'username.required' => 'Please, give your username !',
+                'email.unique' => 'Sorry, This email already exists. Please, give another email !',
+                'username.unique' => 'Sorry, This username already exists. Please, give another username !',
+                'phone_no.unique' => 'Sorry, This phone no already exists. Please, give another phone no !',
+                'designation_id.required' => 'Please, select a designation',
+                'designation_id.numeric' => "Please don't try hack it man !!",
+            ]
+        );
+
+        // If validated, insert data
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->username = $request->username;
+        $user->password = Hash::make($request->password);
+        $user->designation_id = $request->designation_id;
+        $user->phone_no = $request->phone_no;
+        $user->image = $request->image;
+        $user->present_address = $request->present_address;
+        $user->parmanent_address = $request->parmanent_address;
+        $user->status = $request->status;
+        $user->save();
+        
+        session()->flash('success', 'User has been created !');
+        return redirect()->route('admin.users.index');
     }
 
     /**

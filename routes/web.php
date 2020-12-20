@@ -30,6 +30,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
     Route::get('/users', [UsersController::class, 'index'])->name('users.index');
     Route::get('/users/create', [UsersController::class, 'create'])->name('users.create');
+    Route::post('/users/store', [UsersController::class, 'store'])->name('users.store');
     Route::get('/users/edit/{id}', [UsersController::class, 'edit'])->name('users.edit');
 });
 
