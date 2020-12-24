@@ -24,6 +24,7 @@
                     <tr>
                         <th>Sl</th>
                         <th>Name</th>
+                        <th>Profile</th>
                         <th>Email</th>
                         <th>Phone No</th>
                         <th>Designation</th>
@@ -35,6 +36,11 @@
                         <tr>
                             <td>{{ $loop->index + 1 }}</td>
                             <td>{{ $user->name }}</td>
+                            <td>
+                                <a href="{{ asset('images/users/'.$user->image) }}" target="_blank">
+                                    <img src="{{ asset('images/users/'.$user->image) }}"  style="width: 50px"/>
+                                </a>
+                            </td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->phone_no }}</td>
                             <td>{{ $user->designation->name }}</td>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend\User;
 
+use App\Helpers\UploadHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Designation;
 use App\Models\User;
@@ -42,16 +43,16 @@ class UsersController extends Controller
     {
         // Validate our data
         $request->validate([
-                'name' => 'required|string|max:255|min:2',
-                'email' => 'required|string|email|max:255|unique:users',
-                'phone_no' => 'required|max:255|unique:users|max:15|min:11',
-                'username' => 'required|string|max:20|alpha_num|unique:users',
-                'image' => 'nullable|max:2048',
-                'present_address' => 'nullable|max:255',
-                'parmanent_address' => 'nullable|max:255',
-                'status' => 'required|string',
-                'designation_id' => 'required|numeric',
-            ],
+            'name' => 'required|string|max:255|min:2',
+            'email' => 'required|string|email|max:255|unique:users',
+            'phone_no' => 'required|max:255|unique:users|max:15|min:11',
+            'username' => 'required|string|max:20|alpha_num|unique:users',
+            'image' => 'nullable|image|max:2048',
+            'present_address' => 'nullable|max:255',
+            'parmanent_address' => 'nullable|max:255',
+            'status' => 'required|string',
+            'designation_id' => 'required|numeric',
+        ],
             [
                 'name.required' => 'Please, give your name !',
                 'email.required' => 'Please, give your email !',
@@ -62,6 +63,7 @@ class UsersController extends Controller
                 'phone_no.unique' => 'Sorry, This phone no already exists. Please, give another phone no !',
                 'designation_id.required' => 'Please, select a designation',
                 'designation_id.numeric' => "Please don't try hack it man !!",
+                'image.image' => "Please give a valid profile image !!",
             ]
         );
 
@@ -73,12 +75,17 @@ class UsersController extends Controller
         $user->password = Hash::make($request->password);
         $user->designation_id = $request->designation_id;
         $user->phone_no = $request->phone_no;
-        $user->image = $request->image;
         $user->present_address = $request->present_address;
         $user->parmanent_address = $request->parmanent_address;
         $user->status = $request->status;
         $user->save();
-        
+
+        if($request->image){
+            $imageName = UploadHelper::upload($request->image, 'user-'.$user->id, 'images/users');
+            $user->image = $imageName;
+            $user->save();
+        }
+
         session()->flash('success', 'User has been created !');
         return redirect()->route('admin.users.index');
     }
