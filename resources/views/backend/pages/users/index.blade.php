@@ -17,7 +17,7 @@
 
     <div class="main-content-inner m-5">
         @include('backend.layouts.partials.messages')
-        
+
         <div class="data-tables">
             <table id="dataTable" class="text-center">
                 <thead class="bg-light text-capitalize">
@@ -45,13 +45,41 @@
                             <td>{{ $user->phone_no }}</td>
                             <td>{{ $user->designation->name }}</td>
                             <td>
-                                <a href="{{ route('admin.users.edit', 1) }}" class="btn btn-outline-success">Edit</a>
-                                <a href="{{ route('admin.users.edit', 1) }}" class="btn btn-outline-danger ml-2">Delete</a>
+                                <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-outline-success">Edit</a>
+                                <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteUserModal{{ $user->id }}">
+                                    Delete
+                                </button>
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
+
+            @foreach ($users as $user)
+            <div class="modal fade" id="deleteUserModal{{ $user->id }}" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Are you sure to delete ?</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <form method="POST" action="{{ route('admin.users.delete', $user->id) }}" style="display: inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-outline-danger ml-2">
+                                Confirm, Delete
+                            </button>
+                            <button type="button" class="btn btn-secondary ml-2" data-dismiss="modal">Cancel</button>
+                        </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            @endforeach
+
         </div>
     </div>
 @endsection
