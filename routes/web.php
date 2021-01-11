@@ -48,3 +48,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 Route::get('/', [PagesController::class, 'index'])->name('index');
 Route::get('/posts/{id}', [PagesController::class, 'postShow'])->name('posts.show');
 Route::get('/categories/{id}', [PagesController::class, 'categoriesShow'])->name('categories.index');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');

@@ -1,24 +1,24 @@
-@extends('frontend.layouts.master')
-
-@section('main-content')
-    <div>
-        @foreach ($posts as $post)
-            <h2>
-                {{ $post->title }}
-            </h2>
+<x-guest-layout>
+    <div class="pt-4 bg-gray-100">
+        <div class="min-h-screen flex flex-col items-center pt-6 sm:pt-0">
             <div>
-                <a href="{{ route('categories.index', $post->category->id) }}"><mark>{{ $post->category->name }}</mark></a>
+                <x-jet-authentication-card-logo />
+            </div>
 
-                <br>
-                {!! $post->description !!}
-                <br>
+            <div class="w-full sm:max-w-2xl mt-6 p-6 bg-white shadow-md overflow-hidden sm:rounded-lg prose">
+                <div>
+                    Welcome to Laravel Membership Management Project
+                </div>
 
-                <a href="{{ route('posts.show', $post->id) }}">
-                    View Post
-                </a>
+                <div class="mt-3">
+                    @if (Auth::check())
+                        <a class="btn btn-info" href="{{ url('/dashboard') }}">Go to Dashboard</a>
+                    @else
+                        <a class="btn btn-info" href="{{ url('/login') }}">Login</a>
+                    @endif
+                </div>
 
             </div>
-            <hr>
-        @endforeach
+        </div>
     </div>
-@endsection
+</x-guest-layout>

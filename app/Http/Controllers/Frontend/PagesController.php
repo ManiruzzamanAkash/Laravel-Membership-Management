@@ -12,19 +12,16 @@ class PagesController extends Controller
 {
     public function index()
     {
-        $posts = Post::all();
-        return view('frontend.pages.index', compact('posts'));
+        return view('frontend.pages.index');
     }
 
     public function postShow($id)
     {
-        $post = Post::find($id);
-        return view('frontend.pages.posts.show', compact('post'));
+        return view('frontend.pages.posts.show');
     }
 
     public function categoriesShow($id)
     {
-        $category = Category::find($id);
-        return view('frontend.pages.categories.show', compact('category'));
+        return view('frontend.pages.categories.show');
     }
 }
