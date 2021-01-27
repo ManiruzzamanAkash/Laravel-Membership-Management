@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 | Here is where all admin routes declared
 |
 */
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:sanctum'], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
 
     Route::get('/users', [UsersController::class, 'index'])->name('users.index');
@@ -45,9 +45,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 | Here is where all Frontend routes declared
 |
 */
-Route::get('/', [PagesController::class, 'index'])->name('index');
-Route::get('/posts/{id}', [PagesController::class, 'postShow'])->name('posts.show');
-Route::get('/categories/{id}', [PagesController::class, 'categoriesShow'])->name('categories.index');
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('/', [PagesController::class, 'index'])->name('index');
+    Route::get('/posts/{id}', [PagesController::class, 'postShow'])->name('posts.show');
+    Route::get('/categories/{id}', [PagesController::class, 'categoriesShow'])->name('categories.index');
+
+    // Create first time permissions and roles
+});
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');

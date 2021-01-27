@@ -43,7 +43,7 @@
                             </td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->phone_no }}</td>
-                            <td>{{ $user->designation->name }}</td>
+                            <td>{{ $user->designation !== null ? $user->designation->name : '' }}</td>
                             <td>
                                 <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-outline-success">Edit</a>
                                 <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteUserModal{{ $user->id }}">

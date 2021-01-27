@@ -10,15 +10,12 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
+use Spatie\Permission\Models\Role;
 
 class User extends Authenticatable
 {
-    use HasApiTokens;
-    use HasFactory;
-    use HasProfilePhoto;
-    use HasTeams;
-    use Notifiable;
-    use TwoFactorAuthenticatable;
+    use HasApiTokens, HasFactory, HasProfilePhoto, HasTeams, Notifiable, HasRoles, TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -37,8 +34,13 @@ class User extends Authenticatable
         'image',
         'parmanent_address',
         'status',
-        'current_team_id'
+        'current_team_id',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
+
+    protected $guard_name = "sanctum";
 
     /**
      * The attributes that should be hidden for arrays.
@@ -69,4 +71,17 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public static function createRole($name)
+    {
+        // if role has exist, then return the role
+        $role = Role::where('name', $name)->first();
+        if(!is_null($role)){
+            return $role;
+        }else{
+            // else create a role
+            $role = Role::create(['name' => $name]);
+        }
+        return $role;
+    }
 }
