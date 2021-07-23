@@ -18,11 +18,12 @@ class CreateMembersTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('custom_id');
             $table->string('nid');
-            $table->unsignedBigInteger('reference_member_id');
+            $table->unsignedBigInteger('reference_member_id')->nullable();
             $table->enum('status', ['Active', 'Inactive'])->default('Active');
-            
+
             $table->unsignedBigInteger('created_by');
-            $table->unsignedBigInteger('updated_by');
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->unsignedBigInteger('deleted_by')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('created_by')->references('id')->on('users');

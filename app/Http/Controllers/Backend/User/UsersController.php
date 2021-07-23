@@ -35,23 +35,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        // Create Role
-        // $role = User::createRole('Super Admin');
-
-        // Give Role to Permission
-        // $role->givePermissionTo('user.create');
-        // $role->givePermissionTo('user.list');
-        // $role->givePermissionTo('user.view');
-        // $role->givePermissionTo('user.edit');
-        // $role->givePermissionTo('user.delete');
-
-        // Get authenticated user data
-        // $user = User::find(1);
         $user = request()->user();
-
-        // Role Assign
-        // $user->assignRole('Super Admin');
-
 
         // Check if logged in user has "user.create" permission or not
         if (!request()->user()->hasPermissionTo('user.create')) {

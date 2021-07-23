@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -15,7 +16,7 @@ use Spatie\Permission\Models\Role;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, HasProfilePhoto, HasTeams, Notifiable, HasRoles, TwoFactorAuthenticatable;
+    use SoftDeletes, HasApiTokens, HasFactory, HasProfilePhoto, HasTeams, Notifiable, HasRoles, TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -39,8 +40,6 @@ class User extends Authenticatable
         'updated_by',
         'deleted_by',
     ];
-
-    protected $guard_name = "sanctum";
 
     /**
      * The attributes that should be hidden for arrays.
